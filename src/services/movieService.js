@@ -6,7 +6,22 @@ import movieData from '../data/movieData.js';
 //     return movies;
 // };
 
-const getAll = () => movieData.getAll();
+const getAll = async (filter = {}) => {
+    let movies = await movieData.getAll();
+
+    if (filter.search) {
+        movies = movies.filter(m => m.title.toLowerCase().includes(filter.search.toLowerCase()));
+    }
+
+    if (filter.genre) {
+        movies = movies.filter(m => m.genre.toLowerCase() === filter.genre.toLowerCase());
+    }
+
+    if (filter.year) {
+        movies = movies.filter(m => m.year === filter.year);
+    }
+    return movies;
+}
 
 const create = (movie) => {
     movie.id = uniqid();
